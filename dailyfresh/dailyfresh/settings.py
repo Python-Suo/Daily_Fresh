@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',  # celery发送邮件模块
     'df_user',  # 用户模块
 )
 
@@ -106,3 +107,36 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+
+# 发送邮件配置
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = '15031071652@163.com'
+EMAIL_HOST_PASSWORD = 'django225183'
+EMAIL_FROM = '天天-Sniper<15031071652@163.com>'
+
+
+# celery配置
+import djcelery
+# 下面是任务模块
+djcelery.setup_loader() # 取每一个注册的应用下面，查找tasks.py文件,到文件中去加载celery任务函数
+# 下面是代理模块
+BROKER_URL = 'redis://127.0.0.1:6379/2'  # 指定redis
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from df_user import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^user/', include('df_user.urls')),  # 用户模块
+    url(r'^$', views.index),  # 显示首页 首页是网站的默认访问地址　不用index　或者用/
 ]
