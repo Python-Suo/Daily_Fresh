@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'utils.middleware.UrlPathRecordMiddleWare',  # 记录用户访问url地址
 )
 
 ROOT_URLCONF = 'dailyfresh.urls'
@@ -126,7 +127,7 @@ djcelery.setup_loader() # 取每一个注册的应用下面，查找tasks.py文�
 BROKER_URL = 'redis://127.0.0.1:6379/2'  # 指定redis
 
 
-
+# APPEND_SLASH = False  #  设置form表单中的action是否必须以 / 结尾,默认APPEND_SLASH=True action后的值必须以 / 结尾
 
 
 

@@ -35,7 +35,10 @@
                     }
                     else{
                         // 跳转到首页
-                        location.href = '/'
+{#                        location.href = '/'#}
+                        // 跳转到未登录前的访问地址
+{#                        alert(2)#}
+                        location.href = data.next
                     }
                })
 
