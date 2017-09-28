@@ -37,8 +37,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',  # 富文本编辑器
     'djcelery',  # celery发送邮件模块
     'df_user',  # 用户模块
+    'df_goods',  # 商品模块
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,9 +108,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-
+STATIC_URL = '/static/'  # 设置图片url目录
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 设置图片物理目录
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')  # 设置上传图片目录
 
 # 发送邮件配置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -130,7 +132,12 @@ BROKER_URL = 'redis://127.0.0.1:6379/2'  # 指定redis
 # APPEND_SLASH = False  #  设置form表单中的action是否必须以 / 结尾,默认APPEND_SLASH=True action后的值必须以 / 结尾
 
 
-
+# 富文本编辑器设置
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}
 
 
 

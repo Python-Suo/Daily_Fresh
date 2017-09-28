@@ -1,30 +1,33 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-	{% block title %}天天生鲜-首页{% endblock title %}
-	{% block topfiles %}
+{% block title %}天天生鲜-首页{% endblock title %}
+{% block topfiles %}
 	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
-    <script>
-        $(function () {
-            pos = $('.login_btn').text().indexOf('登陆')
-                if (pos <= 0){
-                    $.get('/cart/count/', function (data) {
-                        $('#show_count').text(data.res)
-                    })
-                }
-        })
-    </script>
-    {% endblock topfiles %}
+{% endblock topfiles %}
 {% block body %}
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+			<ul class="navlist fl">
+				<li><a href="/">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
-			<li><a href="/list/1/1/" class="fruit">新鲜水果</a></li>
-			<li><a href="/list/2/1/" class="seafood">海鲜水产</a></li>
-			<li><a href="/list/3/1/" class="meet">猪牛羊肉</a></li>
-			<li><a href="/list/4/1/" class="egg">禽类蛋品</a></li>
-			<li><a href="/list/5/1/" class="vegetables">新鲜蔬菜</a></li>
-			<li><a href="/list/6/1/" class="ice">速冻食品</a></li>
+			<li><a href="#model01" class="fruit">新鲜水果</a></li>
+			<li><a href="#model02" class="seafood">海鲜水产</a></li>
+			<li><a href="#model03" class="meet">猪牛羊肉</a></li>
+			<li><a href="#model04" class="egg">禽类蛋品</a></li>
+			<li><a href="#model05" class="vegetables">新鲜蔬菜</a></li>
+			<li><a href="#model06" class="ice">速冻食品</a></li>
 		</ul>
 		<div class="slide fl">
 			<ul class="slide_pics">
@@ -48,35 +51,34 @@
 			<h3 class="fl" id="model01">新鲜水果</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-                {% for fruit in fruits_new %}
-				<a href="/goods/{{ fruit.id }}/">{{ fruit.goods_name }}</a>
+                {% for goods in fruits_new %}
+				    <a href="/goods/{{ goods.id }}">{{ goods.goods_name }}</a>
                 {% endfor %}
 			</div>
-			<a href="/list/1/1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="{% static 'images/banner01.jpg' %}"></div>
 			<ul class="goods_list fl">
-                {% for fruit in fruits %}
+                {% for goods in fruits %}
 				<li>
-					<h4><a href="/goods/{{ fruit.id }}/">{{ fruit.goods_name }}</a></h4>
-					<a href="/goods/{{ fruit.id }}/"><img src="{% static fruit.img_url %}"></a>
-					<div class="prize">¥ {{ fruit.goods_price }}</div>
+					<h4><a href="/goods/{{ goods.id }}">{{ goods.goods_name }}</a></h4>
+					<a href="/goods/{{ goods.id }}"><img src="{% static goods.goods_image %}"></a>
+					<div class="prize">¥ {{ goods.goods_price }}</div>
 				</li>
                 {% endfor %}
-
 			</ul>
 		</div>
 	</div>
 
-<div class="list_model">
+	<div class="list_model">
 		<div class="list_title clearfix">
 			<h3 class="fl" id="model02">海鲜水产</h3>
 			<div class="subtitle fl">
 				<span>|</span>
-				 {% for goods in seafood_new %}
-				    <a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a>
+                {% for seafood in seafoods_new %}
+				<a href="/goods/{{ seafood.id }}">{{ seafood.goods_name }}</a>
                 {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
@@ -85,11 +87,11 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="{% static 'images/banner02.jpg' %}"></div>
 			<ul class="goods_list fl">
-                {% for goods in seafood %}
+                {% for seafood in seafoods %}
 				<li>
-					<h4><a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a></h4>
-					<a href="/goods/{{ goods.id }}/"><img src="{% static goods.img_url %}"></a>
-					<div class="prize">¥ {{ goods.goods_price }}</div>
+					<h4><a href="/goods/{{ seafood.id }}">{{ seafood.goods_name }}</a></h4>
+					<a href="/goods/{{ seafood.id }}"><img src="{% static seafood.goods_image %}"></a>
+					<div class="prize">¥ {{ seafood.goods_price }}</div>
 				</li>
                 {% endfor %}
 			</ul>
@@ -100,9 +102,9 @@
 		<div class="list_title clearfix">
 			<h3 class="fl" id="model03">猪牛羊肉</h3>
 			<div class="subtitle fl">
+                {% for meat in meats_new %}
 				<span>|</span>
-				 {% for goods in meat_new %}
-				    <a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a>
+				<a href="/goods/{{ meat.id }}">{{ meat.goods_name }}</a>
                 {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
@@ -111,13 +113,13 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="{% static 'images/banner03.jpg' %}"></div>
 			<ul class="goods_list fl">
-                {% for goods in meat %}
+                {% for meat in meats %}
 				<li>
-					<h4><a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a></h4>
-					<a href="/goods/{{ goods.id }}/"><img src="{% static goods.img_url %}"></a>
-					<div class="prize">¥ {{ goods.goods_price }}</div>
+					<h4><a href="/goods/{{ meat.id }}">{{ meat.goods_name }}</a></h4>
+					<a href="/goods/{{ meat.id }}"><img src="{% static meat.goods_image %}"></a>
+					<div class="prize">¥ {{ meat.goods_price }}</div>
 				</li>
-                {% endfor %}
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
@@ -126,9 +128,9 @@
 		<div class="list_title clearfix">
 			<h3 class="fl" id="model04">禽类蛋品</h3>
 			<div class="subtitle fl">
+                {% for egg in eggs_new %}
 				<span>|</span>
-				 {% for goods in eggs_new %}
-				    <a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a>
+				<a href="/goods/{{ egg.id }}">{{ egg.goods_name }}</a>
                 {% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
@@ -137,13 +139,13 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="{% static 'images/banner04.jpg' %}"></div>
 			<ul class="goods_list fl">
-                {% for goods in eggs %}
+                {% for egg in eggs %}
 				<li>
-					<h4><a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a></h4>
-					<a href="/goods/{{ goods.id }}/"><img src="{% static goods.img_url %}"></a>
-					<div class="prize">¥ {{ goods.goods_price }}</div>
+					<h4><a href="/goods/{{ egg.id }}">{{ egg.goods_name }}</a></h4>
+					<a href="/goods/{{ egg.id }}"><img src="{% static egg.goods_image %}"></a>
+					<div class="prize">¥ {{ egg.goods_price }}</div>
 				</li>
-                {% endfor %}
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
@@ -152,10 +154,10 @@
 		<div class="list_title clearfix">
 			<h3 class="fl" id="model05">新鲜蔬菜</h3>
 			<div class="subtitle fl">
+                {% for vege in vegetables_new %}
 				<span>|</span>
-                {% for goods in vegetables_new %}
-				    <a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a>
-                {% endfor %}
+				<a href="/goods/{{ vege.id }}">{{ vege.goods_name }}</a>
+				{% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -163,11 +165,11 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="{% static 'images/banner05.jpg' %}"></div>
 			<ul class="goods_list fl">
-                {% for goods in vegetables %}
+                {% for vege in vegetables %}
 				<li>
-					<h4><a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a></h4>
-					<a href="/goods/{{ goods.id }}/"><img src="{% static goods.img_url %}"></a>
-					<div class="prize">¥ {{ goods.goods_price }}</div>
+					<h4><a href="/goods/{{ vege.id }}">{{ vege.goods_name }}</a></h4>
+					<a href="/goods/{{ vege.id }}"><img src="{% static vege.goods_image %}"></a>
+					<div class="prize">¥ {{ vege.goods_price }}</div>
 				</li>
                 {% endfor %}
 			</ul>
@@ -178,10 +180,10 @@
 		<div class="list_title clearfix">
 			<h3 class="fl" id="model06">速冻食品</h3>
 			<div class="subtitle fl">
+                {% for frozen in frozens_new %}
 				<span>|</span>
-                {% for goods in frozen_new %}
-				    <a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a>
-                {% endfor %}
+				<a href="/goods/{{ frozen.id }}">{{ frozen.goods_name }}</a>
+				{% endfor %}
 			</div>
 			<a href="#" class="goods_more fr">查看更多 ></a>
 		</div>
@@ -189,13 +191,13 @@
 		<div class="goods_con clearfix">
 			<div class="goods_banner fl"><img src="{% static 'images/banner06.jpg' %}"></div>
 			<ul class="goods_list fl">
-                {% for goods in frozen %}
+                {% for frozen in frozens %}
 				<li>
-					<h4><a href="/goods/{{ goods.id }}/">{{ goods.goods_name }}</a></h4>
-					<a href="/goods/{{ goods.id }}/"><img src="{% static goods.img_url %}"></a>
-					<div class="prize">¥ {{ goods.goods_price }}</div>
+					<h4><a href="/goods/{{ frozen.id }}">{{ frozen.goods_name }}</a></h4>
+					<a href="/goods/{{ frozen.id }}"><img src="{% static frozen.goods_image %}"></a>
+					<div class="prize">¥ {{ frozen.goods_price }}</div>
 				</li>
-                {% endfor %}
+			{% endfor %}
 			</ul>
 		</div>
 	</div>

@@ -143,7 +143,7 @@ def logout(request):
                              # 清除用户的登录信息
     # request.session.clear() # 能去掉数据库中django_session表中session_data中的值部分
     # 跳转到首页
-    return redirect('/')
+    return redirect('/user/')
 
 #/user/
 
@@ -195,10 +195,7 @@ def order(request):
     '''显示用户中心-个人订单页'''
     return render(request, 'df_user/user_center_order.html', {'page':'order'})
 
-#
-def index(request):
-    '''显示首页'''
-    return render(request, 'df_user/index.html')
+
 
 
 

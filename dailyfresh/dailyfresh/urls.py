@@ -20,5 +20,5 @@ from df_user import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^user/', include('df_user.urls')),  # 用户模块
-    url(r'^$', views.index),  # 显示首页 首页是网站的默认访问地址　不用index　或者用/
+    url(r'^', include('df_goods.urls')),  # 商品模块
 ]
