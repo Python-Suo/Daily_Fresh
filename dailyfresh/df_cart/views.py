@@ -16,6 +16,7 @@ def cart_add(request):
     goods_count = request.GET.get('goods_count')
     passport_id = request.session.get('passport_id')
     print(goods_count)
+    print(passport_id)
     goods_count = int(goods_count)
     # 2.添加商品到购物车
     res = Cart.objects.add_one_cart_info(goods_id=goods_id,passport_id=passport_id,goods_count=goods_count)

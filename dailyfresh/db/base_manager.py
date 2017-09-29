@@ -9,13 +9,15 @@ class BaseManager(models.Manager):
         '''获取self所在模型类的有效属性列表'''
         # 获取self所在模型类
         model_class= self.model
-        # 获取model_class这个模型类有效属性的元组
+        # 获取model_class这个模型类有效属性的元组passport_id
         attr_str_list = []
         attr_tuple = model_class._meta.get_fields()
         for attr in attr_tuple:
             if isinstance(attr, models.ForeignKey):
-                attr.name = '%s_id'%attr.name
-            attr_str_list.append(attr.name)
+                str_attr = '%s_id'%attr.name
+            else:
+                str_attr = attr.name
+            attr_str_list.append(str_attr)
         return attr_str_list
 
 

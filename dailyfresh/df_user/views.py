@@ -165,6 +165,7 @@ def address(request):
     # 获取账户id
     passport_id = request.session.get('passport_id')
     print(passport_id)
+    print(passport_id)
     if request.method == 'GET':
         # 显示地址页面
         # 查询用户的默认地址

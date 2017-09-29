@@ -149,6 +149,7 @@
         {% if request.session.islogin %}
             // 用户已登录
             // 商品的id和商品数目
+{#            alert(1)#}
             goods_id = {{ goods.id }}
             goods_count = $('.num_show').val()
             // 发起ajax请求,携带两个参数,一个是商品id,一个是商品数目

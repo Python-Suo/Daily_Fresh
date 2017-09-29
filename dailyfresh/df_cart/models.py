@@ -52,6 +52,7 @@ class CartManager(BaseManager):
             res = 1
         return res
 
+
 class Cart(BaseModel):
     '''购物车模型类'''
     passport = models.ForeignKey('df_user.Passport', verbose_name='账户')
