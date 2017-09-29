@@ -1,0 +1,6 @@
+# 该文件名格式　模型类名小写_text.txt
+
+{{ object.goods_name }}  # 根据商品的名字建立索引
+{{ object.goods_sub_title }}  # 根据商品的副标题建立索引
+{{ object.goods_info }}  # 根据商品的描述
+
