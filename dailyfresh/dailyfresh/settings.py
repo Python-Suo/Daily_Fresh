@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'df_user',  # 用户模块
     'df_goods',  # 商品模块
     'df_cart',  # 购物车模块
+    'df_order',  # 订单模块
 )
 
 MIDDLEWARE_CLASSES = (

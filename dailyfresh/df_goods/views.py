@@ -2,6 +2,7 @@ from django.shortcuts import render
 from df_goods.models import Goods,Image
 from df_goods.enums import *
 from django.core.paginator import Paginator  # 导入分页类
+from df_user.models import BrowseHistory
 
 # Create your views here.
 # 127.0.0.1:8000
@@ -57,6 +58,12 @@ def goods_detail(request, gid):
     goods = Goods.objects_logic.get_goods_by_id(gid=gid)
     # 3,根据商品类型id 查询新品信息
     goods_new = Goods.objects.get_goods_by_type(goods_type_id=goods.goods_type_id, limit=2, sort='new')
+    # todo:添加历史浏览记录
+    # 如果用户未登录,不需要添加历史浏览记录
+    if request.session.has_key('islogin'):
+        passport_id = request.session.get('passport_id')
+        BrowseHistory.objects.add_one_history(passport_id=passport_id, goods_id=gid)
+
     # 4.根据商品类型id在enums.py文件中查询商品类型名称
     type_title = GOODS_TYPE[goods.goods_type_id]
     # ５.使用模板文件

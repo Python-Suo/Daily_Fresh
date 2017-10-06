@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from df_user import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^search/', include('haystack.urls')),  # 全文检索框架
     url(r'^user/', include('df_user.urls')),  # 用户模块
     url(r'^', include('df_goods.urls')),  # 商品模块
-    url(r'^cart/', include('df_cart.urls')),
+    url(r'^cart/', include('df_cart.urls')), # 购物车模块
+    url(r'^order/', include('df_order.urls')),  # 订单模块
 ]

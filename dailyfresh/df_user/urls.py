@@ -10,6 +10,6 @@ urlpatterns = [
 
     url(r'^$', views.user),  # 显示用户中心-个人信息页
     url(r'^address/$', views.address), # 显示用户中心-个人地址页
-    url(r'^order/$', views.order),  # 显示用户中心-个人订单页
+    url(r'^order/(\d*)/?$', views.order),  # 显示用户中心-个人订单页
     url(r'^logout/$', views.logout), # 用户退出登录
 ]

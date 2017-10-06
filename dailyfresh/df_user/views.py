@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
-from df_user.models import Passport,Address
+from df_user.models import Passport,Address,BrowseHistory
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET,require_POST,require_http_methods
 from django.conf import settings
 from django.core.mail import send_mail  # 导入发送邮件的函数
 from df_user.tasks import send_register_success_mail # 导入任务函数
 from utils.decorators import login_required  # 导入登录判断装饰器函数
+from df_order.models import OrderBasic
+from django.core.paginator import Paginator
+import time
 # Create your views here.
 
 
@@ -154,7 +157,9 @@ def user(request):
     passport_id = request.session['passport_id']
     # 1.获取登录用户的默认收货地址
     addr = Address.objects.get_one_address(passport_id=passport_id)
-    return render(request, 'df_user/user_center_info.html', {'addr':addr,'page':'user'})
+    # todo:获取用户的历史浏览记录,获取5条
+    browse_li = BrowseHistory.objects.get_browse_list_by_passport(passport_id=passport_id,limit=5)
+    return render(request, 'df_user/user_center_info.html', {'addr':addr,'page':'user', 'browse_li':browse_li})
 
 
 # /user/address
@@ -189,13 +194,36 @@ def address(request):
         return redirect('/user/address/')  # get方式访问
 
 
-
-
-# /user/order
+# /user/order/页码
 @login_required
-def order(request):
+def order(request, pindex):
     '''显示用户中心-个人订单页'''
-    return render(request, 'df_user/user_center_order.html', {'page':'order'})
+    passport_id = request.session.get('passport_id')
+    # 查询用户的订单信息
+    order_basic_list = OrderBasic.objects.get_order_basic_info_by_passport(passport_id=passport_id)
+    # 进行分页操作
+    paginator = Paginator(order_basic_list, 2)
+    # 获取第pindex页的内容
+    if pindex == '':
+        pindex = 1
+    else:
+        pindex = int(pindex)
+    order_basic_list = paginator.page(pindex)  # 返回一个page对象
+    # 获取分页之后的总页数
+    nums_pages = paginator.num_pages
+    if nums_pages < 5:
+        # 如果不足５页　页码全部显示
+        pages = range(1, nums_pages+1)
+    elif pindex <= 3:
+        # 当前页是前3页　显示前5页
+        pages = range(1, 6)
+    elif nums_pages - pindex <= 2:
+        # 当前页是后3页　显示后5页
+        pages = range(nums_pages-4, nums_pages+1)
+    else:
+        # 其他情况,显示当前页的前两页和后两页　
+        pages = range(pindex-2, pindex+3)
+    return render(request, 'df_user/user_center_order.html', {'page':'order','order_basic_list':order_basic_list,'pages':pages})
 
 
 

@@ -40,3 +40,69 @@ def cart_count(request):
     res = Cart.objects.get_cart_count_by_passport(passport_id=passport_id)
     # 3.返回json
     return JsonResponse({'res':res})
+
+
+# /cart/
+@login_required
+def cart_show(request):
+    '''显示购物车页面'''
+    # 1.获取登录用户的passport_id
+    passport_id = request.session['passport_id']
+    # 2.获取用户的购物车记录信息
+    cart_list = Cart.objects.get_cart_list_by_passport(passport_id=passport_id)
+    return render(request, 'df_cart/cart.html', {'cart_list':cart_list})
+
+
+# /cart/update/?goods_id=goods_id&goods_count=goods_count
+@require_GET
+@login_required
+def cart_update(request):
+    '''更新购物车数据表中商品的数目'''
+    # 1.获取商品的id和商品的数目
+    goods_id = request.GET.get('goods_id')
+    goods_count = request.GET.get('goods_count')
+    passport_id = request.session.get('passport_id')
+    # 2.更新用户购物车中的商品的数目
+    res = Cart.objects.update_one_cart_info(passport_id=passport_id,goods_id=goods_id,goods_count=int(goods_count))
+    # 3.判断res返回的json数据
+    if res:
+        # 更新成功
+        return JsonResponse({'res':1})
+    # 更新失败
+    return JsonResponse({'res':0})
+
+
+# /cart/del/?goods_id=商品id
+@require_GET
+@login_required
+def cart_del(request):
+    '''删除购物车中商品的记录'''
+    # 1.获取商品id
+    goods_id = request.GET.get('goods_id')
+    passport_id = request.session.get('passport_id')
+    # 2.山粗购物车中对应的记录
+    res = Cart.objects.del_one_cart_info(passport_id=passport_id,goods_id=goods_id)
+    # 3.判断res返回的数据
+    if res:
+        # 删除成功
+        return JsonResponse({'res':1})
+    # 删除失败
+    return JsonResponse({'res':0})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

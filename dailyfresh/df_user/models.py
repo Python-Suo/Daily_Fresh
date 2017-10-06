@@ -105,7 +105,44 @@ class Address(BaseModel):
         db_table = 's_user_address'
 
 
+class BrowseHistoryManager(BaseManager):
+    '''历史浏览模型管理器类'''
+    def get_one_history(self, passport_id, goods_id):
+        '''查询用户是否浏览过某个商品'''
+        browsed = self.get_one_object(passport_id=passport_id,goods_id=goods_id)
+        return browsed
 
+    def add_one_history(self, passport_id, goods_id):
+        '''添加用户的一条浏览记录'''
+        # 1.取查找用户是否浏览过该商品
+        browsed = self.get_one_history(passport_id=passport_id,goods_id=goods_id)
+        # 2.如果用户浏览过该商品,则更新update_time,否则插入一条新的浏览记录,更新update_time在使用save()方法时自动更新
+        if browsed:
+            # 调用browsed.save()方法会自动更新update_time
+            browsed.save()
+        else:
+            browsed = self.create_one_object(passport_id=passport_id,goods_id=goods_id)
+        return browsed
+
+    def get_browse_list_by_passport(self, passport_id, limit=None):
+        '''根据passport_id获取对应用户的浏览记录'''
+        # 1.根据用户id获取用户的历史浏览记录,browsed_li为一个查询集
+        browsed_li = self.get_object_list(filters={'passport_id':passport_id},order_by=('-update_time',))
+        # 2.对查询结果进行限制
+        if limit:
+            browsed_li = browsed_li[:limit]
+        return browsed_li
+
+
+class BrowseHistory(BaseModel):
+    '''历史浏览模型类'''
+    passport = models.ForeignKey('df_user.Passport', verbose_name='账户')
+    goods = models.ForeignKey('df_goods.Goods', verbose_name='商品')
+
+    objects = BrowseHistoryManager()
+
+    class Meta:
+        db_table = 's_browse_history'
 
 
 
